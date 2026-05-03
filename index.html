@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -57,7 +58,10 @@
                 <main class="container">
                 <div class="dashboard-controls">
                     <h3>Your Assets</h3>
-                    <button id="show-add-modal-btn" class="primary-btn"><span class="plus-icon">+</span> Add Asset</button>
+                    <div style="display:flex; gap:0.75rem;">
+                        <button id="export-assets-btn" class="secondary-btn" style="display:flex;align-items:center;gap:0.4rem;">📥 Export Excel</button>
+                        <button id="show-add-modal-btn" class="primary-btn"><span class="plus-icon">+</span> Add Asset</button>
+                    </div>
                 </div>
                 
                 <div id="asset-list" class="asset-grid">
@@ -71,7 +75,10 @@
                 <main class="container">
                     <div class="dashboard-controls">
                         <h3>Your Employees</h3>
-                        <button id="show-add-employee-btn" class="primary-btn"><span class="plus-icon">+</span> Add Employee</button>
+                        <div style="display:flex; gap:0.75rem;">
+                            <button id="export-employees-btn" class="secondary-btn" style="display:flex;align-items:center;gap:0.4rem;">📥 Export Excel</button>
+                            <button id="show-add-employee-btn" class="primary-btn"><span class="plus-icon">+</span> Add Employee</button>
+                        </div>
                     </div>
                     
                     <div id="employee-list" class="asset-grid">

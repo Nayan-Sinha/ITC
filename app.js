@@ -529,3 +529,65 @@ deleteEmpBtn.addEventListener('click', async () => {
         alert('Failed to delete employee.');
     }
 });
+
+// ─── EXPORT TO EXCEL ───────────────────────────────────────────────────────────
+document.getElementById('export-assets-btn').addEventListener('click', () => {
+    if (assets.length === 0) { alert('No assets to export.'); return; }
+
+    const data = assets.map(a => {
+        const emp = a.assignedTo ? employees.find(e => e.id === parseInt(a.assignedTo)) : null;
+        return {
+            'Asset ID':       `AST-${String(a.id).padStart(4,'0')}`,
+            'Asset Name':     a.name,
+            'Category':       a.category,
+            'Value (₹)':      parseFloat(a.value),
+            'Date Added':     a.dateAdded ? a.dateAdded.split('T')[0] : '',
+            'Warranty Date':  a.warrantyDate ? a.warrantyDate.split('T')[0] : '',
+            'Description':    a.description || '',
+            'Assigned To':    emp ? emp.name : 'Unassigned',
+            'Assignment Date':a.assignmentDate ? a.assignmentDate.split('T')[0] : ''
+        };
+    });
+
+    const ws = XLSX.utils.json_to_sheet(data);
+
+    // Style column widths
+    ws['!cols'] = [
+        { wch: 12 }, { wch: 30 }, { wch: 18 }, { wch: 14 },
+        { wch: 14 }, { wch: 16 }, { wch: 40 }, { wch: 25 }, { wch: 18 }
+    ];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Assets');
+
+    const today = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, `Assets_Report_${today}.xlsx`);
+});
+
+document.getElementById('export-employees-btn').addEventListener('click', () => {
+    if (employees.length === 0) { alert('No employees to export.'); return; }
+
+    const data = employees.map(e => ({
+        'Employee ID':  `EMP-${String(e.id).padStart(4,'0')}`,
+        'Full Name':    e.name,
+        'Department':   e.department,
+        'Role / Title': e.role,
+        'Email':        e.email,
+        'Status':       e.status || 'Active',
+        'Assets Assigned': assets.filter(a => parseInt(a.assignedTo) === e.id).map(a => a.name).join(', ') || 'None'
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(data);
+
+    ws['!cols'] = [
+        { wch: 14 }, { wch: 28 }, { wch: 18 }, { wch: 25 },
+        { wch: 30 }, { wch: 10 }, { wch: 40 }
+    ];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Employees');
+
+    const today = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, `Employees_Report_${today}.xlsx`);
+});
+
