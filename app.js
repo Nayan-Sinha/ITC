@@ -1,6 +1,4 @@
 // ─── CONFIG ────────────────────────────────────────────────────────────────────
-// After deploying your server on Railway, paste its public URL here.
-// e.g. 'https://your-api-name.up.railway.app'
 const API_BASE = 'https://itc-production-4aad.up.railway.app';
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────
@@ -12,36 +10,36 @@ let currentEmployeeId = null;
 let currentAssignAssetId = null;
 
 // ─── DOM ELEMENTS ──────────────────────────────────────────────────────────────
-const loginView       = document.getElementById('login-view');
-const mainAppView     = document.getElementById('main-app');
-const detailView      = document.getElementById('detail-view');
-const empDetailView   = document.getElementById('employee-detail-view');
+const loginView         = document.getElementById('login-view');
+const mainAppView       = document.getElementById('main-app');
+const detailView        = document.getElementById('detail-view');
+const empDetailView     = document.getElementById('employee-detail-view');
 
-const assetsSubview   = document.getElementById('assets-view');
-const employeesSubview= document.getElementById('employees-view');
-const navAssetsBtn    = document.getElementById('nav-assets');
-const navEmployeesBtn = document.getElementById('nav-employees');
+const assetsSubview     = document.getElementById('assets-view');
+const employeesSubview  = document.getElementById('employees-view');
+const navAssetsBtn      = document.getElementById('nav-assets');
+const navEmployeesBtn   = document.getElementById('nav-employees');
 
-const loginForm       = document.getElementById('login-form');
-const loginError      = document.getElementById('login-error');
+const loginForm         = document.getElementById('login-form');
+const loginError        = document.getElementById('login-error');
 
-const assetListContainer    = document.getElementById('asset-list');
-const employeeListContainer = document.getElementById('employee-list');
-const logoutBtn             = document.getElementById('logout-btn');
+const assetListContainer     = document.getElementById('asset-list');
+const employeeListContainer  = document.getElementById('employee-list');
+const logoutBtn              = document.getElementById('logout-btn');
 
-const showAddModalBtn   = document.getElementById('show-add-modal-btn');
-const closeModalBtn     = document.getElementById('close-modal-btn');
-const addModal          = document.getElementById('add-modal');
-const addAssetForm      = document.getElementById('add-asset-form');
-const modalTitle        = document.getElementById('modal-title');
-const assetCategorySelect   = document.getElementById('asset-category');
-const customCategoryInput   = document.getElementById('custom-category');
+const showAddModalBtn    = document.getElementById('show-add-modal-btn');
+const closeModalBtn      = document.getElementById('close-modal-btn');
+const addModal           = document.getElementById('add-modal');
+const addAssetForm       = document.getElementById('add-asset-form');
+const modalTitle         = document.getElementById('modal-title');
+const assetCategorySelect    = document.getElementById('asset-category');
+const customCategoryInput    = document.getElementById('custom-category');
 
-const showAddEmployeeBtn= document.getElementById('show-add-employee-btn');
-const closeEmpModalBtn  = document.getElementById('close-emp-modal-btn');
-const addEmpModal       = document.getElementById('add-employee-modal');
-const addEmployeeForm   = document.getElementById('add-employee-form');
-const empModalTitle     = document.getElementById('emp-modal-title');
+const showAddEmployeeBtn = document.getElementById('show-add-employee-btn');
+const closeEmpModalBtn   = document.getElementById('close-emp-modal-btn');
+const addEmpModal        = document.getElementById('add-employee-modal');
+const addEmployeeForm    = document.getElementById('add-employee-form');
+const empModalTitle      = document.getElementById('emp-modal-title');
 
 const backBtn         = document.getElementById('back-btn');
 const detailCategory  = document.getElementById('detail-category');
@@ -53,34 +51,34 @@ const detailAssigned  = document.getElementById('detail-assigned');
 const detailWarranty  = document.getElementById('detail-warranty');
 const detailDesc      = document.getElementById('detail-desc');
 
-const assignModal         = document.getElementById('assign-modal');
-const closeAssignModalBtn = document.getElementById('close-assign-modal-btn');
-const assignForm          = document.getElementById('assign-form');
-const assignEmployeeSelect= document.getElementById('assign-employee');
-const assignDateInput     = document.getElementById('assign-date');
+const assignModal          = document.getElementById('assign-modal');
+const closeAssignModalBtn  = document.getElementById('close-assign-modal-btn');
+const assignForm           = document.getElementById('assign-form');
+const assignEmployeeSelect = document.getElementById('assign-employee');
+const assignDateInput      = document.getElementById('assign-date');
 
-const empBackBtn      = document.getElementById('emp-back-btn');
-const empDetailDept   = document.getElementById('emp-detail-dept');
-const empDetailId     = document.getElementById('emp-detail-id');
-const empDetailName   = document.getElementById('emp-detail-name');
-const empDetailRole   = document.getElementById('emp-detail-role');
-const empDetailEmail  = document.getElementById('emp-detail-email');
-const editEmpBtn      = document.getElementById('edit-emp-btn');
-const deleteEmpBtn    = document.getElementById('delete-emp-btn');
+const empBackBtn     = document.getElementById('emp-back-btn');
+const empDetailDept  = document.getElementById('emp-detail-dept');
+const empDetailId    = document.getElementById('emp-detail-id');
+const empDetailName  = document.getElementById('emp-detail-name');
+const empDetailRole  = document.getElementById('emp-detail-role');
+const empDetailEmail = document.getElementById('emp-detail-email');
+const editEmpBtn     = document.getElementById('edit-emp-btn');
+const deleteEmpBtn   = document.getElementById('delete-emp-btn');
 
 // ─── HELPERS ───────────────────────────────────────────────────────────────────
 function showLoading(container) {
     container.innerHTML = `
-        <div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-secondary);">
-            <div style="font-size:1.5rem; margin-bottom:0.5rem;">⏳</div>
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-secondary);">
+            <div style="font-size:1.5rem;margin-bottom:0.5rem;">⏳</div>
             <p>Loading...</p>
         </div>`;
 }
 
 function showError(container, msg) {
     container.innerHTML = `
-        <div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--danger);">
-            <div style="font-size:1.5rem; margin-bottom:0.5rem;">⚠️</div>
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--danger);">
+            <div style="font-size:1.5rem;margin-bottom:0.5rem;">⚠️</div>
             <p>${msg}</p>
         </div>`;
 }
@@ -216,7 +214,8 @@ function renderAssets() {
             assignmentHtml = `
                 <div style="display:flex;flex-direction:column;gap:0.25rem;">
                     <span class="asset-date" style="color:var(--accent-primary)">Assigned: ${empName}</span>
-                    <button class="danger-btn" style="padding:0.3rem 0.6rem;font-size:0.8rem;" onclick="returnAsset(${asset.id}, event)">Return</button>
+                    <span class="asset-date" style="font-size:0.75rem;opacity:0.8;">on ${formatDate(asset.assignmentDate)}</span>
+                    <button class="danger-btn" style="padding:0.3rem 0.6rem;font-size:0.8rem;margin-top:0.2rem;" onclick="returnAsset(${asset.id}, event)">Return</button>
                 </div>`;
         } else {
             assignmentHtml = `
@@ -234,7 +233,7 @@ function renderAssets() {
             <h4 class="asset-name">${asset.name}</h4>
             <p class="asset-desc-short">${asset.description || ''}</p>
             <div class="card-footer" style="align-items:center">
-                <span class="asset-value">₹${parseFloat(asset.value).toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
+                <span class="asset-value">₹${parseFloat(asset.value||0).toLocaleString('en-IN',{minimumFractionDigits:2})}</span>
                 ${assignmentHtml}
             </div>`;
         assetListContainer.appendChild(card);
@@ -306,7 +305,7 @@ function viewAssetDetails(id) {
     detailCategory.textContent = asset.category;
     detailId.textContent = `AST-${String(asset.id).padStart(4,'0')}`;
     detailName.textContent = asset.name;
-    detailValue.textContent = `₹${parseFloat(asset.value).toLocaleString('en-IN',{minimumFractionDigits:2})}`;
+    detailValue.textContent = `₹${parseFloat(asset.value||0).toLocaleString('en-IN',{minimumFractionDigits:2})}`;
     detailDate.textContent = formatDate(asset.dateAdded);
 
     if (detailAssigned) {
@@ -378,6 +377,7 @@ function openAssignModal(assetId, e) {
 
 async function returnAsset(assetId, e) {
     if (e) e.stopPropagation();
+    if (!confirm('Are you sure you want to return this asset?')) return;
     try {
         const updated = await apiFetch(`/api/assets/${assetId}/assign`, {
             method: 'PATCH',
@@ -530,64 +530,82 @@ deleteEmpBtn.addEventListener('click', async () => {
     }
 });
 
-// ─── EXPORT TO EXCEL ───────────────────────────────────────────────────────────
-document.getElementById('export-assets-btn').addEventListener('click', () => {
-    if (assets.length === 0) { alert('No assets to export.'); return; }
+// ─── EXPORT HELPERS ────────────────────────────────────────────────────────────
+function downloadCSV(filename, rows) {
+    const headers = Object.keys(rows[0]);
+    const csvRows = [
+        headers.join(','),
+        ...rows.map(r => headers.map(h => {
+            const val = String(r[h] ?? '').replace(/"/g, '""');
+            return `"${val}"`;
+        }).join(','))
+    ];
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
 
-    const data = assets.map(a => {
+function downloadExcel(filename, sheetName, rows) {
+    if (typeof XLSX === 'undefined') {
+        // Fallback to CSV if SheetJS CDN failed to load
+        downloadCSV(filename.replace('.xlsx', '.csv'), rows);
+        return;
+    }
+    const ws = XLSX.utils.json_to_sheet(rows);
+    const colLens = Object.keys(rows[0]).map(k =>
+        Math.max(k.length, ...rows.map(r => String(r[k] ?? '').length)) + 2
+    );
+    ws['!cols'] = colLens.map(wch => ({ wch }));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, sheetName);
+    XLSX.writeFile(wb, filename);
+}
+
+// ─── EXPORT: ASSETS ────────────────────────────────────────────────────────────
+document.getElementById('export-assets-btn').addEventListener('click', () => {
+    if (!assets || assets.length === 0) {
+        alert('No assets to export. Please wait for data to load or add some assets first.');
+        return;
+    }
+    const today = new Date().toISOString().split('T')[0];
+    const rows = assets.map(a => {
         const emp = a.assignedTo ? employees.find(e => e.id === parseInt(a.assignedTo)) : null;
         return {
-            'Asset ID':       `AST-${String(a.id).padStart(4,'0')}`,
-            'Asset Name':     a.name,
-            'Category':       a.category,
-            'Value (₹)':      parseFloat(a.value),
-            'Date Added':     a.dateAdded ? a.dateAdded.split('T')[0] : '',
-            'Warranty Date':  a.warrantyDate ? a.warrantyDate.split('T')[0] : '',
-            'Description':    a.description || '',
-            'Assigned To':    emp ? emp.name : 'Unassigned',
-            'Assignment Date':a.assignmentDate ? a.assignmentDate.split('T')[0] : ''
+            'Asset ID':        `AST-${String(a.id).padStart(4,'0')}`,
+            'Asset Name':      a.name,
+            'Category':        a.category,
+            'Value (INR)':     parseFloat(a.value || 0).toFixed(2),
+            'Date Added':      a.dateAdded ? a.dateAdded.split('T')[0] : '',
+            'Warranty Date':   a.warrantyDate ? a.warrantyDate.split('T')[0] : '',
+            'Description':     a.description || '',
+            'Assigned To':     emp ? emp.name : 'Unassigned',
+            'Assignment Date': a.assignmentDate ? a.assignmentDate.split('T')[0] : ''
         };
     });
-
-    const ws = XLSX.utils.json_to_sheet(data);
-
-    // Style column widths
-    ws['!cols'] = [
-        { wch: 12 }, { wch: 30 }, { wch: 18 }, { wch: 14 },
-        { wch: 14 }, { wch: 16 }, { wch: 40 }, { wch: 25 }, { wch: 18 }
-    ];
-
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Assets');
-
-    const today = new Date().toISOString().split('T')[0];
-    XLSX.writeFile(wb, `Assets_Report_${today}.xlsx`);
+    downloadExcel(`Assets_Report_${today}.xlsx`, 'Assets', rows);
 });
 
+// ─── EXPORT: EMPLOYEES ─────────────────────────────────────────────────────────
 document.getElementById('export-employees-btn').addEventListener('click', () => {
-    if (employees.length === 0) { alert('No employees to export.'); return; }
-
-    const data = employees.map(e => ({
-        'Employee ID':  `EMP-${String(e.id).padStart(4,'0')}`,
-        'Full Name':    e.name,
-        'Department':   e.department,
-        'Role / Title': e.role,
-        'Email':        e.email,
-        'Status':       e.status || 'Active',
-        'Assets Assigned': assets.filter(a => parseInt(a.assignedTo) === e.id).map(a => a.name).join(', ') || 'None'
-    }));
-
-    const ws = XLSX.utils.json_to_sheet(data);
-
-    ws['!cols'] = [
-        { wch: 14 }, { wch: 28 }, { wch: 18 }, { wch: 25 },
-        { wch: 30 }, { wch: 10 }, { wch: 40 }
-    ];
-
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Employees');
-
+    if (!employees || employees.length === 0) {
+        alert('No employees to export. Please wait for data to load or add some employees first.');
+        return;
+    }
     const today = new Date().toISOString().split('T')[0];
-    XLSX.writeFile(wb, `Employees_Report_${today}.xlsx`);
+    const rows = employees.map(e => ({
+        'Employee ID':     `EMP-${String(e.id).padStart(4,'0')}`,
+        'Full Name':       e.name,
+        'Department':      e.department,
+        'Role / Title':    e.role,
+        'Email':           e.email,
+        'Status':          e.status || 'Active',
+        'Assets Assigned': assets.filter(a => parseInt(a.assignedTo) === e.id).map(a => a.name).join('; ') || 'None'
+    }));
+    downloadExcel(`Employees_Report_${today}.xlsx`, 'Employees', rows);
 });
-
