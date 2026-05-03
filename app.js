@@ -1,7 +1,7 @@
 // ─── CONFIG ────────────────────────────────────────────────────────────────────
 // After deploying your server on Railway, paste its public URL here.
 // e.g. 'https://your-api-name.up.railway.app'
-const API_BASE = 'https://your-api-url.up.railway.app';
+const API_BASE = 'https://itc-production-4aad.up.railway.app';
 
 // ─── STATE ─────────────────────────────────────────────────────────────────────
 let isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
